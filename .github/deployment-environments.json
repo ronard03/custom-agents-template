@@ -1,0 +1,95 @@
+{
+  "environments": {
+    "staging": {
+      "name": "Staging",
+      "description": "Pre-production testing environment",
+      "url": "https://staging.example.com",
+      "auto_approve": false,
+      "required_approvals": 1,
+      "required_reviewers": ["@ronard03"],
+      "wait_timer": 0,
+      "deployment_branches": ["main"],
+      "health_checks": {
+        "endpoint": "/health",
+        "timeout": 30,
+        "retries": 3,
+        "interval": 5
+      },
+      "rollback_enabled": true,
+      "auto_rollback_on_failure": true,
+      "monitoring": {
+        "enabled": true,
+        "alert_threshold": 0.05,
+        "check_interval": 60
+      }
+    },
+    "production": {
+      "name": "Production",
+      "description": "Live production environment",
+      "url": "https://example.com",
+      "auto_approve": false,
+      "required_approvals": 2,
+      "required_reviewers": ["@ronard03"],
+      "wait_timer": 300,
+      "deployment_branches": ["main"],
+      "health_checks": {
+        "endpoint": "/health",
+        "timeout": 60,
+        "retries": 5,
+        "interval": 10
+      },
+      "rollback_enabled": true,
+      "auto_rollback_on_failure": true,
+      "monitoring": {
+        "enabled": true,
+        "alert_threshold": 0.01,
+        "check_interval": 30
+      },
+      "requires_change_log": true,
+      "requires_version_bump": true,
+      "deployment_window": {
+        "timezone": "UTC",
+        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "start_hour": 9,
+        "end_hour": 17,
+        "exclude_dates": []
+      }
+    }
+  },
+  "deployment_policies": {
+    "max_concurrent_deployments": 1,
+    "deployment_timeout_minutes": 60,
+    "health_check_timeout_seconds": 300,
+    "rollback_timeout_minutes": 30,
+    "require_deployment_plan": true,
+    "incident_response_sla_hours": 1,
+    "postmortem_required_after_rollback": true
+  },
+  "audit_and_compliance": {
+    "enable_audit_logging": true,
+    "log_retention_days": 90,
+    "enforce_branch_protection": true,
+    "compliance_frameworks": ["GDPR", "HIPAA", "SOC2"],
+    "encryption": {
+      "at_rest": "AES-256",
+      "in_transit": "TLS 1.3"
+    },
+    "backup": {
+      "frequency": "hourly",
+      "retention_days": 90,
+      "cold_storage_years": 1
+    }
+  },
+  "rollback_settings": {
+    "auto_rollback_triggers": [
+      "health_check_failure",
+      "error_rate_threshold",
+      "high_latency",
+      "service_unavailable"
+    ],
+    "auto_rollback_error_rate_threshold": 0.05,
+    "auto_rollback_latency_threshold_ms": 2000,
+    "keep_rollback_available_hours": 24,
+    "notify_on_rollback": true
+  }
+}
